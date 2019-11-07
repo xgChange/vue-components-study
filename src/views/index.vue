@@ -5,6 +5,9 @@
         <li>
           <router-link to="/index/component_form">实战1：实现form表单</router-link>
         </li>
+        <li>
+          <router-link to="/index/component_checkbox">实战2：实现组合多选框组件checkgroup和checkbox</router-link>
+        </li>
       </ul>
     </div>
     <div class="right">
@@ -20,6 +23,10 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
 .index {
   display: flex;
   flex-direction: row;
@@ -28,6 +35,9 @@ export default {
 .left > ul {
   list-style: none;
   padding: 0;
+}
+.left > ul > li {
+  margin: 20px 0;
 }
 .right {
   flex: 1;
