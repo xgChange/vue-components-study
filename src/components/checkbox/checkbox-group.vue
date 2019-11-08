@@ -9,7 +9,10 @@ export default {
   name: 'iCheckboxGroup',
   props: {
     value: {
-      type: Array
+      type: Array,
+      default() {  //对象或者数组的默认值必须从一个函数获取
+        return []
+      }
     }
   }
 }

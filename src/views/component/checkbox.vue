@@ -1,6 +1,6 @@
 <template>
   <div class="checkbox">
-    <!-- <i-checkbox v-model="single">选项1</i-checkbox> -->
+    <i-checkbox v-model="single">选项1</i-checkbox>
     <i-checkbox-group v-model="type">
       <i-checkbox>选项2</i-checkbox>
     </i-checkbox-group>

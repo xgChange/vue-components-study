@@ -18,7 +18,13 @@
 </template>
 
 <script>
+/**
+ * 1. 当checkbox单独使用使
+ * 2. 当checkbox的父元素是form-item
+ * 3. 当checkbox的父元素是checkgroup时
+ */
 import { findComponentUpward } from '@/utils/assist.js'
+import emitter from '@/mixins/emitter'
 
 export default {
   name: 'iCheckbox',
@@ -30,6 +36,7 @@ export default {
       currentValue: this.value
     }
   },
+  mixins: [emitter],
   props: {
     disabled: {
       type: Boolean
@@ -80,7 +87,13 @@ export default {
       this.currentValue = checked
       const value = checked ? this.trueValue : this.falseValue
       this.$emit('input', value)
-      this.$emit('iFormItem', 'on-form-change', value)  // 向formItem组件派发一个事件，这样可以在form中校验
+      if (this.group) {
+        // this.parent.changed(this.model)
+
+      } else {
+        this.dispatch('iFormItem', 'on-form-change', value)  // 向formItem组件派发一个事件，这样可以在form中校验
+        this.$emit('on-change', value)
+      }
     },
     updateModel() {
       this.currentValue = this.value === this.trueValue

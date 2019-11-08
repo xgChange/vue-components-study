@@ -13,7 +13,14 @@
  */
 function findComponentUpward(context, componentName) {
   let parent = context.$parent
-  let name = parent.$options.name
+  let name = ''
+  if (parent) {
+    name = parent.$options.name
+  }
+
+  if (!name) {
+    return false
+  }
 
   if (parent && (!name || name !== componentName)) {
     findComponentUpward(parent, componentName) //递归
