@@ -5,14 +5,52 @@
 </template>
 
 <script>
+import Emitter from "@/mixins/emitter"
+import { findComponentsDownward } from "@/utils/assist"
 export default {
   name: 'iCheckboxGroup',
+  mixins: [Emitter],
   props: {
     value: {
       type: Array,
       default() {  //对象或者数组的默认值必须从一个函数获取
         return []
       }
+    }
+  },
+  data() {
+    return {
+      currentValue: this.value,
+      childrens: []
+    }
+  },
+  methods: {
+    updateModel(update) {
+      this.childrens = findComponentsDownward(this, 'iCheckbox')
+      if (this.childrens && this.childrens.length) {
+        const { value } = this
+        this.childrens.forEach((child) => {
+          child.model = value
+          if (update) {
+            child.currentValue = value.indexOf(child.label) >= 0
+            child.group = true
+          }
+        })
+      }
+    },
+    changed(data) {
+      this.currentValue = data
+      this.$emit('input', data)
+      this.$emit('on-change', data)
+      this.dispatch('iFormItem', 'on-form-change', data)
+    },
+  },
+  mounted() {
+    this.updateModel(true)
+  },
+  watch: {
+    value() {
+      this.updateModel(true)
     }
   }
 }

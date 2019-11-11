@@ -73,7 +73,7 @@ export default {
     }
 
     if (this.group) {
-      // this.parent.updateModel(true)
+      this.parent.updateModel(true)
     } else {
       this.updateModel()
     }
@@ -88,8 +88,7 @@ export default {
       const value = checked ? this.trueValue : this.falseValue
       this.$emit('input', value)
       if (this.group) {
-        // this.parent.changed(this.model)
-
+        this.parent.changed(this.model)
       } else {
         this.dispatch('iFormItem', 'on-form-change', value)  // 向formItem组件派发一个事件，这样可以在form中校验
         this.$emit('on-change', value)

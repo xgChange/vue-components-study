@@ -79,14 +79,17 @@ function findComponentDownward(context, componentName) {
  */
 function findComponentsDownward(context, componentName) {
   let childrens = context.$children
-
   if (childrens && childrens.length) {
     return childrens.reduce((arr, cur) => {
       if (cur.$options.name === componentName) {
         arr.push(cur)
       }
-      let foundChilds = findComponentDownward(cur, componentName)
-      return arr.concat(foundChilds)
+      let foundChilds = findComponentsDownward(cur, componentName)
+      if (foundChilds) {
+        return arr.concat(foundChilds)
+      } else {
+        return arr
+      }
     }, [])
   }
 }
