@@ -12,26 +12,28 @@
  * @param {* 查找的组件名} componentName
  */
 function findComponentUpward(context, componentName) {
-  let parent = context.$parent
-  let name = ''
+  let parent = context.$parent;
+  let name = "";
   if (parent) {
-    name = parent.$options.name
+    name = parent.$options.name;
   }
 
   if (!name) {
-    return false
+    return undefined;
+  }
+  if (name === componentName) {
+    return parent;
+  } else {
+    findComponentUpward(parent, componentName);
   }
 
-  if (parent && (!name || name !== componentName)) {
-    findComponentUpward(parent, componentName) //递归
-  }
   // while (parent && (!name || name !== componentName)) {
   //   parent = parent.$parent;
   //   if (parent) {
   //     name = parent.$options.name;
   //   }
   // }
-  return parent
+  // return parent
 }
 
 /**
@@ -40,14 +42,14 @@ function findComponentUpward(context, componentName) {
  * @param {* 查找的组件名} componentName
  */
 function findComponentsUpward(context, componentName) {
-  let parents = []
-  const parent = context.$parent
+  let parents = [];
+  const parent = context.$parent;
 
   if (parent) {
-    if (parent.$options.name === componentName) parents.push(parent)
-    return parents.concat(findComponentsUpward(parent, componentName))
+    if (parent.$options.name === componentName) parents.push(parent);
+    return parents.concat(findComponentsUpward(parent, componentName));
   } else {
-    return []
+    return [];
   }
 }
 
@@ -57,19 +59,19 @@ function findComponentsUpward(context, componentName) {
  * @param {* 查找的组件名} componentName
  */
 function findComponentDownward(context, componentName) {
-  let childrens = context.$children
+  let childrens = context.$children;
 
   if (childrens && childrens.length) {
     for (let i = 0; i < childrens.length; i++) {
-      let name = childrens[i].$options.name
+      let name = childrens[i].$options.name;
       if (name === componentName) {
-        return childrens[i]
+        return childrens[i];
       } else {
-        return findComponentDownward(childrens[i], componentName)
+        return findComponentDownward(childrens[i], componentName);
       }
     }
   }
-  return children
+  return children;
 }
 
 /**
@@ -78,34 +80,34 @@ function findComponentDownward(context, componentName) {
  * @param {* 查找的组件名} componentName
  */
 function findComponentsDownward(context, componentName) {
-  let childrens = context.$children
+  let childrens = context.$children;
   if (childrens && childrens.length) {
     return childrens.reduce((arr, cur) => {
       if (cur.$options.name === componentName) {
-        arr.push(cur)
+        arr.push(cur);
       }
-      let foundChilds = findComponentsDownward(cur, componentName)
+      let foundChilds = findComponentsDownward(cur, componentName);
       if (foundChilds) {
-        return arr.concat(foundChilds)
+        return arr.concat(foundChilds);
       } else {
-        return arr
+        return arr;
       }
-    }, [])
+    }, []);
   }
 }
 
 function findBrothersComponents(context, componentName, exceptMe = true) {
   let rs = context.$parent.$children.filter(item => {
-    return (item.$options.name = componentName)
-  })
+    return (item.$options.name = componentName);
+  });
   let index = rs.findIndex(item => {
     // 找到context在所有的子元素中的索引
-    item._uid === context._uid
-  })
+    item._uid === context._uid;
+  });
   if (exceptMe) {
-    rs.splice(index, 1)
+    rs.splice(index, 1);
   }
-  return rs
+  return rs;
 }
 export {
   findComponentUpward,
@@ -113,4 +115,4 @@ export {
   findComponentDownward,
   findComponentsDownward,
   findBrothersComponents
-}
+};

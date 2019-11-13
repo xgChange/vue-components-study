@@ -49,6 +49,7 @@ export default {
       const validator = new AsyncValidator(descriptor)
       let model = {}
       model[this.prop] = this.fieldVal
+      // console.log(model)
       validator.validate(model, (errors) => {
         this.validateState = !errors ? 'success' : 'error'
         this.validateMessage = errors ? errors[0].message : ''

@@ -1,14 +1,16 @@
 <template>
   <label>
     <span>
-      <input
-        v-if="group"
-        type="checkbox"
-        :disabled="disabled"
-        :value="label"
-        v-model="model"
-        @change="changed"
-      />
+      <template v-if="group">
+        <input
+          type="checkbox"
+          :disabled="disabled"
+          :value="label"
+          v-model="model"
+          @change="changed"
+        />
+      </template>
+
       <input v-else type="checkbox" :checked="currentValue" @change="changed" :disabled="disabled" />
     </span>
     <span>
@@ -45,29 +47,13 @@ export default {
       type: [String, Number, Boolean],
       default: false
     },
-    trueValue: {
-      type: [String, Number, Boolean],
-      default: true
-    },
-    falseValue: {
-      type: [String, Number, Boolean],
-      default: false
-    },
     label: {
       type: [String, Number, Boolean]
     }
   },
-  watch: {
-    value(val) {  // 监听父元素手动更改props的value，再实时同步到currentValue上
-      if (val === this.trueValue || val === this.falseValue) {
-        this.updateModel()
-      } else {
-        throw 'Value should be trueValue or falseValue'
-      }
-    }
-  },
   mounted() {
     this.parent = findComponentUpward(this, 'iCheckboxGroup')
+
     if (this.parent) {
       this.group = true
     }
@@ -85,17 +71,17 @@ export default {
       }
       let checked = e.target.checked
       this.currentValue = checked
-      const value = checked ? this.trueValue : this.falseValue
+      const value = `${checked}`
       this.$emit('input', value)
       if (this.group) {
-        this.parent.changed(this.model)
+        this.parent.changed(this.model) //  将改变的model传回给checkbox-group
       } else {
         this.dispatch('iFormItem', 'on-form-change', value)  // 向formItem组件派发一个事件，这样可以在form中校验
         this.$emit('on-change', value)
       }
     },
     updateModel() {
-      this.currentValue = this.value === this.trueValue
+      this.currentValue = this.value
     }
   }
 }

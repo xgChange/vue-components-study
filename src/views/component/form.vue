@@ -7,8 +7,16 @@
       <i-form-item label="邮箱" prop="email">
         <i-input v-model="formValidate.email"></i-input>
       </i-form-item>
-      <i-form-item label="复选" prop="checkbox">
+      <!-- <i-form-item label="复选" prop="checkbox">
         <i-checkbox v-model="formValidate.checkbox">选项二</i-checkbox>
+      </i-form-item>-->
+      <i-form-item label="今天吃啥" prop="checkboxes">
+        <i-checkbox-group v-model="formValidate.checkboxes">
+          <i-checkbox label="luobo">酸萝卜</i-checkbox>
+          <i-checkbox label="yuxincao">鱼腥草</i-checkbox>
+          <i-checkbox label="mifen">怀化米粉</i-checkbox>
+          <i-checkbox label="all">我全都要</i-checkbox>
+        </i-checkbox-group>
       </i-form-item>
     </i-form>
     <button @click="submitForm">提交</button>
@@ -21,6 +29,7 @@ import iForm from "@/components/form/form"
 import iFormItem from "@/components/form/form-item"
 import iInput from '@/components/input/input'
 import iCheckbox from '@/components/checkbox/checkbox.vue'
+import iCheckboxGroup from '@/components/checkbox/checkbox-group'
 import { findComponentDownward, findComponentsDownward } from "@/utils/assist"
 
 export default {
@@ -30,7 +39,8 @@ export default {
       formValidate: {
         name: '',
         email: '',
-        checkbox: true
+        checkbox: 1,
+        checkboxes: []
       },
       ruleValidate: {
         name: [
@@ -40,8 +50,8 @@ export default {
           { required: true, message: '邮箱不能为空', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ],
-        checkbox: [
-          { required: true, message: '不能为空', trigger: 'blur' }
+        checkboxes: [
+          { type: 'array', required: true, message: '请至少选择一个吃的', trigger: 'change' }
         ]
       }
     }
@@ -50,6 +60,7 @@ export default {
     submitForm() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          console.log(this.formValidate)
           alert("提交成功")
         } else {
           return false
@@ -67,7 +78,8 @@ export default {
     iForm,
     iFormItem,
     iInput,
-    iCheckbox
+    iCheckbox,
+    iCheckboxGroup
   },
 
 }

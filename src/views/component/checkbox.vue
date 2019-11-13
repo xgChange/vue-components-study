@@ -1,6 +1,6 @@
 <template>
   <div class="checkbox">
-    <!-- <i-checkbox v-model="single">选项1</i-checkbox> -->
+    <i-checkbox v-model="single">选项1</i-checkbox>
     <hr />
     <i-checkbox-group v-model="type">
       <i-checkbox label="option2">选项2</i-checkbox>
@@ -17,8 +17,8 @@ import ICheckboxGroup from "@/components/checkbox/checkbox-group.vue"
 export default {
   data() {
     return {
-      single: false,
-      type: ['option2']
+      single: 0,
+      type: ['option3']
     }
   },
   components: {

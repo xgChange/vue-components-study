@@ -45,3 +45,33 @@ mounted(){
 }
 
 ```
+
+## v-model 在 checkbox 中的应用
+
+```html
+<div>
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+  <label for="jack">Jack</label>
+  <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+  <label for="john">John</label>
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+  <label for="mike">Mike</label>
+  <br />
+  <span>Checked names: {{ checkedNames }}</span>
+</div>
+```
+
+```javascript
+/**
+ * 1. v-model绑定了一个数组，如果选中里面的input，它的值会被添加到数组上去["jack","john"]代表 jack和john被选中
+ * 2. 如果v-model的值是String/Boolean/Number，input选中后,v-model会变为 true/false
+ * 3. 因为v-model对应的是input和value. 在checkbox中对应着checked和change事件。其实就是通过v-model影响value，        value再影响checked
+ */
+export default {
+  data() {
+    return {
+      checkedNames: ["Jack"]
+    };
+  }
+};
+```
