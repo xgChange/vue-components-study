@@ -75,3 +75,154 @@ export default {
   }
 };
 ```
+
+## 使用 async-validator 做表单验证以及组件之间的通信
+
+1.安装 yarn add async-validator
+
+2.写校验规则 **(调用时的 js 处)**
+
+```javascript
+  ruleValidate: {
+    name: [
+      { required: true, message: '用户名不能为空', trigger: 'blur' }
+    ],
+    email: [
+      { required: true, message: '邮箱不能为空', trigger: 'blur' },
+      { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
+    ],
+    checkboxes: [
+      { type: 'array', required: true, message: '请至少选择一个吃的', trigger: 'change' }
+    ]
+  }
+```
+
+3.调用 form 表单以及相应的 form-item **(调用时的 html 处)**
+
+```html
+<i-form :model="formValidate" :rules="ruleValidate" ref="ruleForm">
+  <i-form-item label="用户名" prop="name">
+    <i-input v-model="formValidate.name"></i-input>
+  </i-form-item>
+  <i-form-item label="邮箱" prop="email">
+    <i-input v-model="formValidate.email"></i-input>
+  </i-form-item>
+  <i-form-item label="今天吃啥" prop="checkboxes">
+    <i-checkbox-group v-model="formValidate.checkboxes">
+      <i-checkbox label="luobo">酸萝卜</i-checkbox>
+      <i-checkbox label="yuxincao">鱼腥草</i-checkbox>
+      <i-checkbox label="mifen">怀化米粉</i-checkbox>
+      <i-checkbox label="all">我全都要</i-checkbox>
+    </i-checkbox-group>
+  </i-form-item>
+</i-form>
+```
+
+4.form(父组件)和 form-item(组件)之间的通信 **(form 组件, form.vue)**
+
+```javascript
+  /**
+   * 1. 因为form-item组件是在form组件的插槽内，所以通过provide将自己的this暴露出去
+   * 2. 子组件中通过inject注入即可，通过this.form就可以获取到父组件的this
+   */
+  provide(){  // 父组件 provide
+    return {
+      form: this
+    }
+  }
+  /*
+  * 1.子组件引入，可以通过this.form调用
+    2. 这样子组件可以获取(调用时)传入父组件的 model 和 rules
+  */
+  inject: ['form']
+```
+
+5.使用提前写好的用于组件之间通信的工具函数 assist.js
+
+- `findComponentUpward` 向上找到最近的指定组件
+- `findComponentsUpward` 向上找到所有的指定组件
+- `findComponentDownward` 向下找到最近的指定组件
+- `findComponentsDownward` 向下找到所有指定的组件
+
+```javascript
+  /*  i-input 组件
+
+    1.调用时v-model传入i-input组件中,在@input中把改变的value传回form-item组件中
+    2. 分别回传change和blur事件
+  */
+  handleInput(e) {
+    let targetVal = e.target.value
+    this.currentVal = targetVal
+    this.$emit('input', targetVal)
+    this.dispatch('iFormItem', 'on-form-change', targetVal)
+  },
+  handleBlur() {
+    this.dispatch('iFormItem', 'on-form-blur', this.currentVal)
+  }
+```
+
+- 在 form-item 组件中去监听触发的事件 **(form-item.vue)**
+
+```javascript
+/**
+ * 必须要在mounted中去监听 (参考: 父组件用了 slot，与其子组件的执行顺序)
+ */
+
+mounted() {
+  if (this.prop) {
+    this.dispatch('iForm', 'on-form-item-add', this)
+    this.$on('on-form-change', (val) => {
+      this.validate("change")
+    })
+    this.$on('on-form-blur', (val) => {
+      this.validate('blur')
+    })
+    this.setRules() // 用来获取所有规则中required字段,赋值给this.required，然后通过它去标记哪些form-item是required
+    this.initiaValue = this.fieldVal   // 缓存初始值等于form的model
+  }
+},
+```
+
+6.接下来就是校验了 **(form-item.vue)**
+
+```javascript
+  validate(trigger, callback = function () { }) {
+      let rule = this.getFilterRules(trigger) // 获取指定的类型的规则; 例如 blur, change
+      if (!rule || rule.length === 0) {
+        return true
+      }
+      /**
+       * async-validator 的验证
+       */
+      this.validateState = 'validating'       // 校验中
+      let descriptor = {}
+      descriptor[this.prop] = rule
+      const validator = new AsyncValidator(descriptor)
+      let model = {}
+      model[this.prop] = this.fieldVal  // 这里的fieldVal是通过计算属性计算的，来自form组件的model(外界调用时传入的那个formValidate),因为每个form-item都是通过v-model绑定的，所以每当value变化都会同步到外面的model.
+
+      validator.validate(model, (errors) => {
+        this.validateState = !errors ? 'success' : 'error'
+        this.validateMessage = errors ? errors[0].message : ''
+        callback(this.validateMessage)
+      })
+    }
+```
+
+7.点击 button 按钮提交和重置事件 **(调用时的 js 处)**
+
+```javascript
+  submitForm() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          console.log(this.formValidate)
+          alert("提交成功")
+        } else {
+          return false
+        }
+      })
+    },
+  resetForm() {
+    this.$refs.ruleForm.resetFileds()
+  }
+```
