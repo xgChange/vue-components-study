@@ -8,6 +8,9 @@
         <li>
           <router-link to="/index/component_checkbox">实战2：实现组合多选框组件checkgroup和checkbox</router-link>
         </li>
+        <li>
+          <router-link to="/index/component_display">实战3：动态渲染.vue文件组件</router-link>
+        </li>
       </ul>
     </div>
     <div class="right">

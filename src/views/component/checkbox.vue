@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import ICheckbox from "@/components/checkbox/checkbox.vue"
-import ICheckboxGroup from "@/components/checkbox/checkbox-group.vue"
+import ICheckbox from "@/components/checkbox/checkbox.vue";
+import ICheckboxGroup from "@/components/checkbox/checkbox-group.vue";
 export default {
   data() {
     return {
       single: 0,
-      type: ['option3']
-    }
+      type: ["option3"]
+    };
   },
   components: {
     ICheckbox,
@@ -30,7 +30,7 @@ export default {
       this.single = !this.single
     }
   }
-}
+};
 </script>
 
 <style scoped>

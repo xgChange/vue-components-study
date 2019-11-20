@@ -71,9 +71,9 @@ export default {
   data() {
     return {
       checkedNames: ["Jack"]
-    };
+    }
   }
-};
+}
 ```
 
 ## 使用 async-validator 做表单验证以及组件之间的通信
@@ -225,4 +225,17 @@ mounted() {
   resetForm() {
     this.$refs.ruleForm.resetFileds()
   }
+```
+
+## Vue-cli3 报错(vue 的版本问题)
+
+> [Vue warn]: You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.
+
+- 在使用 Vue.js 2 时，有独立构建（standalone）和运行时构建（runtime-only）两种版本
+  Vue CLI 3 默认使用了 vue.runtime.js，它不允许编译 template 模板，因为我们在 Vue.extend 构造实例时，用了 `template` 选项，所以会报错。解决方案有两种，一是手动将 template 改写为 Render 函数，但这成本太高；另一种是对 Vue CLI 3 创建的工程做简单的配置。我们使用后者。
+
+```javascript
+module.exports = {
+  runtimeCompiler: true
+}
 ```
