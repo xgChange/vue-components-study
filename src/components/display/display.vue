@@ -38,7 +38,6 @@ export default {
 
       if (!openingTag) return ''
       else openingTag = openingTag[0]
-
       return source.slice(source.indexOf(openingTag) + openingTag.length, source.lastIndexOf(`</${type}>`))
     },
     splitCode() {

@@ -2,6 +2,7 @@ const Index = () => import("../views/index")
 const Form = () => import("../views/component/form")
 const Checkbox = () => import("../views/component/checkbox")
 const Display = () => import("../views/component/display")
+const Alert = () => import("../views/component/alert")
 export default [
   {
     path: "/",
@@ -26,6 +27,11 @@ export default [
         name: "component_display",
         path: "component_display",
         component: Display
+      },
+      {
+        name: "component_alert",
+        path: "component_alert",
+        component: Alert
       }
     ]
   }
