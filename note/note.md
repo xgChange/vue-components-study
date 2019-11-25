@@ -239,3 +239,31 @@ module.exports = {
   runtimeCompiler: true
 }
 ```
+
+## Array.apply(null, {length: 5})
+
+输出: [undefined, undefined, undefined, undefined, undefined]
+因为 apply 第二个参数本来是一个数组，但是如果写一个类数组对象也行，{length: 5}当做一个类数组对象.
+
+## 如果重复渲染多个组件或者元素
+
+```javascript
+// 可以像react那样
+const children = {
+  render: h => {
+    return h("p", "text")
+  }
+}
+
+{
+  render: h => {
+    const childrens = Array.apply(null, {
+      length: 5
+    }).map(() => {
+      return h(children)
+    })
+
+    return h("div", childrens)
+  }
+}
+```

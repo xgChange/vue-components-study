@@ -8,22 +8,32 @@
       <i-checkbox label="option4">选项4</i-checkbox>
     </i-checkbox-group>
     <button @click="handle">点击</button>
+    <my-component :render="render"></my-component>
   </div>
 </template>
 
 <script>
 import ICheckbox from "@/components/checkbox/checkbox.vue";
 import ICheckboxGroup from "@/components/checkbox/checkbox-group.vue";
+import MyComponent from '@/components/my-component.vue'
 export default {
   data() {
     return {
       single: 0,
-      type: ["option3"]
+      type: ["option3"],
+      render: (h) => {
+        return h('div', {
+          style: {
+            color: 'red'
+          }
+        }, '自定义内容');
+      }
     };
   },
   components: {
     ICheckbox,
-    ICheckboxGroup
+    ICheckboxGroup,
+    MyComponent
   },
   methods: {
     handle() {
