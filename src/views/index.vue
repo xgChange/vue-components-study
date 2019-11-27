@@ -14,6 +14,9 @@
         <li>
           <router-link to="/index/component_alert">实战4：全局alert组件</router-link>
         </li>
+        <li>
+          <router-link to="/index/component_table">实战5：table组件</router-link>
+        </li>
       </ul>
     </div>
     <div class="right">

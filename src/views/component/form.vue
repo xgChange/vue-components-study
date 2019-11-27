@@ -85,7 +85,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #form {
   text-align: center;
   color: #2c3e50;
