@@ -267,3 +267,10 @@ const children = {
   }
 }
 ```
+
+## table 下的一些 css
+
+```css
+border-spacing: 相邻单元格之间的距离  (只适用于 边框分离模式)
+border-collapse: 决定表格的边框是分开还是合并
+```
