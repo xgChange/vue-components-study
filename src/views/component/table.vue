@@ -1,5 +1,6 @@
 <template>
   <div class="table">
+    <h3>这是table(render方式)</h3>
     <i-table class="i_table" :data="data1" :columns="columns1"></i-table>
   </div>
 </template>
@@ -151,7 +152,7 @@ export default {
 
 <style scoped>
 .table {
-  /* text-align: center; */
+  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
