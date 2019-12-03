@@ -274,3 +274,24 @@ const children = {
 border-spacing: 相邻单元格之间的距离  (只适用于 边框分离模式)
 border-collapse: 决定表格的边框是分开还是合并
 ```
+
+## scopedSlots 和 render 一起使用
+
+```javascript
+/**
+ * 相当于
+ *  <div>
+ *    <slot :row="row" :col="col" :index="index"></slot>
+ *  </div>
+ */
+render: (h, { row, col, index }) => {
+  return h(
+    "div",
+    this.$refs.table.$scopedSlots.name({
+      row,
+      col,
+      index
+    })
+  )
+}
+```

@@ -1,7 +1,7 @@
 <template>
   <div class="table">
     <h3>这是table(slot方式)</h3>
-    <i-table class="i_table" :data="data1" :columns="columns1">
+    <i-table class="i_table" :data="data1" :columns="columns1" ref="table">
       <template v-slot:name="{row, index}">
         <input v-if="editIndex === index" v-model="editName" type="text" />
         <span v-else>{{row.name}}</span>
@@ -45,7 +45,14 @@ export default {
         {
           title: '姓名',
           key: 'name',
-          slot: 'name'
+          // slot: 'name'
+          render: (h, { row, col, index }) => {
+            return h('div', this.$refs.table.$scopedSlots.name({
+              row,
+              col,
+              index
+            }))
+          }
         },
         {
           title: '年龄',
@@ -66,33 +73,62 @@ export default {
           slot: 'action'
         }
       ],
-      data1: [
-        {
-          name: '王小明',
-          age: 18,
-          birthday: '919526400000',
-          address: '北京市朝阳区芍药居'
-        },
-        {
-          name: '张小刚',
-          age: 25,
-          birthday: '696096000000',
-          address: '北京市海淀区西二旗'
-        },
-        {
-          name: '李小红',
-          age: 30,
-          birthday: '563472000000',
-          address: '上海市浦东新区世纪大道'
-        },
-        {
-          name: '周小伟',
-          age: 26,
-          birthday: '687024000000',
-          address: '深圳市南山区深南大道'
-        }
-      ]
+      data1: []
+      // data1: [
+      //   {
+      //     name: '王小明',
+      //     age: 18,
+      //     birthday: '919526400000',
+      //     address: '北京市朝阳区芍药居'
+      //   },
+      //   {
+      //     name: '张小刚',
+      //     age: 25,
+      //     birthday: '696096000000',
+      //     address: '北京市海淀区西二旗'
+      //   },
+      //   {
+      //     name: '李小红',
+      //     age: 30,
+      //     birthday: '563472000000',
+      //     address: '上海市浦东新区世纪大道'
+      //   },
+      //   {
+      //     name: '周小伟',
+      //     age: 26,
+      //     birthday: '687024000000',
+      //     address: '深圳市南山区深南大道'
+      //   }
+      // ]
     }
+  },
+  mounted() {
+    this.data1 = [
+      {
+        name: '王小明',
+        age: 18,
+        birthday: '919526400000',
+        address: '北京市朝阳区芍药居'
+      },
+      {
+        name: '张小刚',
+        age: 25,
+        birthday: '696096000000',
+        address: '北京市海淀区西二旗'
+      },
+      {
+        name: '李小红',
+        age: 30,
+        birthday: '563472000000',
+        address: '上海市浦东新区世纪大道'
+      },
+      {
+        name: '周小伟',
+        age: 26,
+        birthday: '687024000000',
+        address: '深圳市南山区深南大道'
+      }
+    ]
   },
   methods: {
     getBirthday(d) {
