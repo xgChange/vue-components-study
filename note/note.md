@@ -277,6 +277,8 @@ border-collapse: 决定表格的边框是分开还是合并
 
 ## scopedSlots 和 render 一起使用
 
+example1:
+
 ```javascript
 /**
  * 相当于
@@ -293,5 +295,32 @@ render: (h, { row, col, index }) => {
       index
     })
   )
+}
+```
+
+example2:
+
+```javascript
+/*
+  通过一个中转的js文件，inject父组件，然后通过$scopedSlots操作来使用作用域插槽
+*/
+export default {
+  functional: true,
+  props: {
+    row: Object,
+    col: Object,
+    index: Number
+  },
+  inject: ["tableRoot"],
+  render: (h, ctx) => {
+    return h(
+      "div",
+      ctx.injections.tableRoot.$scopedSlots[ctx.props.col.slot]({
+        row: ctx.props.row,
+        col: ctx.props.col,
+        index: ctx.props.index
+      })
+    )
+  }
 }
 ```
