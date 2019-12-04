@@ -14,7 +14,7 @@ function notice(obj) {
     },
     obj
   )
-  instance.add(objAssign)
+  return instance.add(objAssign)
 }
 
 export default {

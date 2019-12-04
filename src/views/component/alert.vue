@@ -1,14 +1,23 @@
 <template>
   <div class="alert">
     <h3>全局提示组件</h3>
+    <i-button to="a">点击</i-button>
     <button @click="openMsg1">打开消息1</button>
     <button @click="openMsg2">打开消息2</button>
   </div>
 </template>
 
 <script>
-
+import iButton from '@/components/button/button.vue'
 export default {
+  data() {
+    return {
+      a: "span"
+    }
+  },
+  components: {
+    iButton
+  },
   methods: {
     openMsg1() {
       this.$message.info({
