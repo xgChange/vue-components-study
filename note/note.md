@@ -324,3 +324,7 @@ export default {
   }
 }
 ```
+
+## \$set
+
+通过 Vue.\$set 方法设置的数据，是响应式的，Vue.js 可以追踪到它的变化。

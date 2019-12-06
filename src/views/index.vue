@@ -20,6 +20,12 @@
         <li>
           <router-link to="/index/component_table-slot">6：table组件(slot方式)</router-link>
         </li>
+        <li>
+          <router-link to="/index/component_recursion">7：测试递归组件</router-link>
+        </li>
+        <li>
+          <router-link to="/index/component_tree">8：树形控件</router-link>
+        </li>
       </ul>
     </div>
     <div class="right">

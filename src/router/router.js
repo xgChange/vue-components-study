@@ -5,6 +5,8 @@ const Display = () => import("../views/component/display")
 const Alert = () => import("../views/component/alert")
 const Table = () => import("../views/component/table")
 const TableSlot = () => import("../views/component/table-slot")
+const Recursion = () => import("../views/component/recursion")
+const Tree = () => import("../views/component/tree")
 
 export default [
   {
@@ -45,6 +47,16 @@ export default [
         name: "component_table-slot",
         path: "component_table-slot",
         component: TableSlot
+      },
+      {
+        name: "component_recursion",
+        path: "component_recursion",
+        component: Recursion
+      },
+      {
+        name: "component_tree",
+        path: "component_tree",
+        component: Tree
       }
     ]
   }
