@@ -1,6 +1,11 @@
 <template>
   <div class="tree">
-    <tree :lists="list" :show-checkbox=true></tree>
+    <tree
+      :lists="list"
+      :show-checkbox="true"
+      @on-toggle-expand="handleExpand"
+      @on-check-change="handleChecked"
+    ></tree>
   </div>
 </template>
 
@@ -19,10 +24,10 @@ export default {
           children: [
             {
               title: 'leaf 1-1-1',
+
               children: [
                 {
                   title: 'leaf 1-1-1-1',
-                  checked: true
                 }
               ]
             },
@@ -43,6 +48,14 @@ export default {
           ]
         }
       ]
+    }
+  },
+  methods: {
+    handleExpand(d1, d2) {
+      // console.log(d1) // 当前项的节点数据
+    },
+    handleChecked(d1) {
+      // console.log(d1)
     }
   }
 }

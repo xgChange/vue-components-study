@@ -49,6 +49,21 @@ export default {
     },
     label: {
       type: [String, Number, Boolean]
+    },
+    trueValue: {
+      type: [String, Number, Boolean],
+      default: true
+    },
+    falseValue: {
+      type: [String, Number, Boolean],
+      default: false
+    },
+  },
+  watch: {
+    value(val) {
+      if (val === this.trueValue || val === this.falseValue) {
+        this.updateModel()
+      }
     }
   },
   mounted() {
@@ -82,6 +97,7 @@ export default {
     },
     updateModel() {
       this.currentValue = this.value
+
     }
   }
 }

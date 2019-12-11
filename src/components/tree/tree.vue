@@ -12,6 +12,8 @@
 <script>
 import treeNode from './tree-node'
 import deepCopy from '@/utils/deepCopy.js'
+import { findComponentDownward } from '@/utils/assist.js'
+
 export default {
   name: 'tree',
   components: {
@@ -45,6 +47,9 @@ export default {
   methods: {
     cloneList() {
       this.cloneData = deepCopy(this.lists)
+    },
+    emitEvent(name, data) {
+      this.$emit(name, data)
     }
   }
 }
