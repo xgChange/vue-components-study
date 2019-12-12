@@ -56,6 +56,7 @@ a {
 }
 .left > ul > li {
   margin: 20px 0;
+  font-size: 10px;
 }
 .right {
   flex: 1;
