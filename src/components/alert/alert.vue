@@ -35,7 +35,7 @@ export default {
     },
     remove(name) {
       const notice = this.notices
-      for (let i = 0;i < notice.length;i++) {
+      for (let i = 0; i < notice.length; i++) {
         if (notice[i].name === name) {
           notice.splice(i, 1)
           break
